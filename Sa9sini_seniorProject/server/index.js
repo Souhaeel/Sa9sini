@@ -9,26 +9,18 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello from the server!");
 });
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
-//test
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
