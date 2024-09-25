@@ -13,19 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING(255),
       allowNull: false
-    },
-    SellerOrBuyer:{
-      type:DataTypes.STRING(),
-      allowNull: false
     }
   },{
     timestamps: false  // Disable timestamps if not needed
   });
 
   Users.associate = function (models) {
-    Users.hasMany(models.Products, {
+    Users.hasMany(models.Questions, {
       foreignKey: 'userId',
-      as: 'products',
+      as: 'Questions',
     });
   };
 

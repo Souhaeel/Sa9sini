@@ -3,8 +3,8 @@ const db = require("../../database/index");
 module.exports = {
     getUsers: async (req, res) => {
         try {
-            const expenses = await db.Users.findAll({})
-            res.status(200).send(expenses)
+            const users = await db.Users.findAll({})
+            res.status(200).send(users)
         }
         catch (error) {
             res.status(500).send(error)

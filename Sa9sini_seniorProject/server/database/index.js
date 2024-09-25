@@ -11,8 +11,8 @@ const consequelize = new Sequelize(config.database, config.user, config.password
 
 
 db.Users = require('./models/Users')(consequelize, DataTypes)
-db.Transactions = require('./models/Answers')(consequelize, DataTypes)
-db.Products = require('./models/Questions')(consequelize, DataTypes)
+db.Answers = require('./models/Answers')(consequelize, DataTypes)
+db.Questions = require('./models/Questions')(consequelize, DataTypes)
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
@@ -20,7 +20,9 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-consequelize.sync({ alter: true })
+// consequelize.sync({ force : true })
+consequelize.sync({ alter : true })
+
 consequelize.authenticate()
   .then(() => console.log('your database is connected'))
   .catch((error) => console.log(error))
