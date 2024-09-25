@@ -4,16 +4,19 @@
   "description": "MVP-Repo-Starter",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server/index.js"
   },
   "author": "cohortpt",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.0.2",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "faker": "^6.6.6",
     "mongoose": "^8.0.1",
     "mysql2": "^3.11.3",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "sequelize": "^6.37.3"
   }
 }
