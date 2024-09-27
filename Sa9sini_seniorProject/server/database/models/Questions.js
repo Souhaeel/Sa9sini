@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         QuestionDate: {
             type: DataTypes.DATE,
             allowNull: false
+        },
+        Like: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
 
     },{
