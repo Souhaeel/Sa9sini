@@ -5,18 +5,14 @@ import Sign_up from './components/Sign_up'
 import ProfilePage from './components/ProfilePage'
 import OneQuestion from './components/OneQuestion'
 import MainPage from './components/MainPage'
-import NavBar from './components/NavBar';
-
 import "./App.css";
 
 function App() {
 
-  const [theme,setTheme] = useState("light")
 
   return (
-    <div className={`container ${theme}`}>
+    <div>
       <BrowserRouter>
-        <div ><NavBar theme={theme} setTheme={setTheme}/></div>
         <Routes>
           <Route path='/Sign_in' element={<Sign_in />} />
           <Route path='/Sign_up' element={<Sign_up />} />
