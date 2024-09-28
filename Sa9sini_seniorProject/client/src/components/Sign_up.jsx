@@ -1,6 +1,28 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
-export default function Sign_up(){
+export default function Sign_up() {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        const getData = async () => {
+            const response = await axios.get('http://localhost:3000/api/users/getAll')
+            setData(response.data)
+        }
+        getData()
+    }, [])
+    console.log(data);
+
+    return (
+        <div>
+            {data.map((element, i) => (
+                <h1 key={i}>{element.userName}</h1> // Add a key to each mapped element
+            ))}
+        </div>
+    )
+
 
 }
+
+
+
