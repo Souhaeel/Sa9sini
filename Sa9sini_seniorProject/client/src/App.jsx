@@ -16,7 +16,7 @@ function App() {
   return (
     <div className={`container ${theme}`}>
       <BrowserRouter>
-        <div ><NavBar theme={theme} setTheme={setTheme}/></div>
+        <NavBar theme={theme} setTheme={setTheme}/>
         <Routes>
           <Route path='/Sign_in' element={<Sign_in />} />
           <Route path='/Sign_up' element={<Sign_up />} />
