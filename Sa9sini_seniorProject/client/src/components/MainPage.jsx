@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ThumbsUp, MessageCircle, User } from 'lucide-react';
 import axios from 'axios';
-import Footer from './Footer';
-import AddQuestion from './AddQuestion';
+import Footer from './sub_components/Footer';
+import AddQuestion from './sub_components/AddQuestion';
 
 export default function MainPage() {
     const [questions, setQuestions] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
+    const [likee, seLikee] = useState(0)
 
     let avatarPic = 'https://i.pinimg.com/236x/53/a3/89/53a3893001f4f0a310c6ce792fe6598a.jpg';
 
