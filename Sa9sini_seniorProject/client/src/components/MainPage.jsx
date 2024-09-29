@@ -10,6 +10,7 @@ export default function MainPage() {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [commentInputs, setCommentInputs] = useState({});
     const [comments, setComments] = useState({});
+    const [users, setUsers] = useState({}); 
 
     let avatarPic = 'https://i.pinimg.com/236x/53/a3/89/53a3893001f4f0a310c6ce792fe6598a.jpg';
 
@@ -20,13 +21,26 @@ export default function MainPage() {
                 const sortedQuestions = res.data.sort((a, b) => b.id - a.id);
                 setQuestions(sortedQuestions);
 
+                const commentCountRes = await axios.get('http://localhost:3000/api/Answers/getAll');
+                const allAnswers = commentCountRes.data;
+
+                const userRes = await axios.get('http://localhost:3000/api/Users/getAll');
+                const allUsers = userRes.data;
+
                 const initialComments = {};
+                const initialUsers = {};
                 sortedQuestions.forEach(question => {
-                    initialComments[question.id] = 0;
+                    const count = allAnswers.filter(answer => answer.questionId === question.id).length;
+                    initialComments[question.id] = count; 
+
+                    const user = allUsers.find(user => user.id === question.userId);
+                    initialUsers[question.id] = user ? user.userName : 'Unknown'; 
                 });
-                setComments(initialComments);
+
+                setComments(initialComments); 
+                setUsers(initialUsers);  
             } catch (err) {
-                console.log('this error', err);
+                console.log('Error:', err);
             }
         };
 
@@ -100,22 +114,6 @@ export default function MainPage() {
         }
     };
 
-    const handleCommentCount = async (id) => {
-        let res = 0;
-    
-        try {
-            const response = await axios.get('http://localhost:3000/api/Answers/getAll');
-            const answers = response.data;
-    
-            res = answers.filter(answer => answer.questionId === id).length;
-        } catch (err) {
-            console.log('this error', err);
-        }
-    
-        return res;
-    };
-    
-
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '100px' }}>
@@ -155,7 +153,7 @@ export default function MainPage() {
                                 <div className="flex items-center mb-4">
                                     <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
                                         {avatarPic ? (
-                                            <img src={avatarPic} alt={question.name} className="w-full h-full object-cover" />
+                                            <img src={avatarPic} alt={users[question.id]} className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                                                 <User className="text-gray-400" size={24} />
@@ -163,7 +161,7 @@ export default function MainPage() {
                                         )}
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-lg text-gray-800">{question.name}</h3>
+                                        <h3 className="font-semibold text-lg text-gray-800">{users[question.id]}</h3> {/* Display user name */}
                                         <p className="text-sm text-gray-500">{question.QuestionDate.slice(0, 16)}</p>
                                     </div>
                                 </div>
@@ -184,7 +182,7 @@ export default function MainPage() {
                                             className="flex items-center space-x-1"
                                         >
                                             <MessageCircle size={20} />
-                                            <span>{handleCommentCount(question.id) || 0}</span>
+                                            <span>{comments[question.id] || 0}</span> {/* Render comment count */}
                                         </button>
                                     </div>
                                 </div>
@@ -196,7 +194,7 @@ export default function MainPage() {
                                             onChange={(e) => setCommentInputs((prev) => ({
                                                 ...prev,
                                                 [question.id]: e.target.value
-                                            }))}
+                                            }))} 
                                             placeholder="Type your comment..."
                                             className="border rounded px-2 py-1 w-full"
                                         />
