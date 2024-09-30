@@ -14,7 +14,7 @@ function App() {
   const [theme,setTheme] = useState("light")
 
   return (
-    <div className={`container ${theme}`}>
+    <div className={`container-fluid ${theme}`}>
       <BrowserRouter>
         <NavBar theme={theme} setTheme={setTheme}/>
         <Routes>
