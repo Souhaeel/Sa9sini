@@ -3,12 +3,13 @@ import { Mail, Calendar, ThumbsUp, Home } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function ProfilePage() {
     const [data, setData] = useState([]);
     const [users, setUser] = useState([]);
+    const [image, setImage] = useState("");  // For selected image
+    const [imageUrl, setImageUrl] = useState("");  // For uploaded image URL
 
-    const nav = useNavigate()
+    const nav = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +26,18 @@ export default function ProfilePage() {
         fetchData();
     }, []);
 
+    const handleImageUpload = async () => {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "sa9sini");  
+        try {
+            const res = await axios.post("https://api.cloudinary.com/v1_1/dcttg7rql/image/upload", formData);
+            setImageUrl(res.data.secure_url);  
+        } catch (error) {
+            console.error("Error uploading image:", error);
+        }
+    };
+
     const userIndex = 8;
     const currentUser = users[userIndex] || {};
     const userName = currentUser.userName || 'noBody';
@@ -32,19 +45,18 @@ export default function ProfilePage() {
 
     return (
         <div>
-            <div 
-            onClick={()=>{nav('/')}}
-            className={`inline-flex items-center justify-center `}>
-                <Home size={24} aria-hidden="true" />
+            <div onClick={() => { nav('/') }} className="inline-flex items-center justify-center">
+                <Home size={24} aria-hidden="true" style={{ position: 'fixed', top: '0', left: '0' }} />
                 <span className="sr-only">Home</span>
             </div>
+
             <div className="container mx-auto px-4 py-8">
                 <div className="bg-white shadow-xl rounded-lg overflow-hidden">
                     <div className="p-6 sm:p-10">
                         <div className="flex flex-col sm:flex-row items-center">
                             <img
                                 className="w-32 h-32 sm:w-48 sm:h-48 rounded-full object-cover mb-4 sm:mb-0 sm:mr-8"
-                                src={'https://i.pinimg.com/236x/09/fe/87/09fe871bbc8a2ca63c31c70382d9d3e6.jpg'}
+                                src={imageUrl || 'https://i.pinimg.com/236x/09/fe/87/09fe871bbc8a2ca63c31c70382d9d3e6.jpg'}
                                 alt={`${userName}'s profile`}
                             />
                             <div className="text-center sm:text-left">
@@ -53,6 +65,19 @@ export default function ProfilePage() {
                                     <Mail className="w-5 h-5 mr-2" />
                                     {userEmail}
                                 </p>
+
+                                {/* Image Upload Input */}
+                                <input
+                                    type="file"
+                                    onChange={(e) => setImage(e.target.files[0])}
+                                    className="mt-4"
+                                />
+                                <button
+                                    onClick={handleImageUpload}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                                >
+                                    Upload Profile Picture
+                                </button>
                             </div>
                         </div>
                     </div>

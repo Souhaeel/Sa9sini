@@ -224,7 +224,7 @@ export default function MainPage() {
                 </div>
 
                 {/* Fixed BlueBox */}
-                <div style={{ position: 'fixed', top: '149px', right: '200px', width: '200px' }}>
+                <div style={{ position: 'fixed', top: '80px', right: '200px', width: '200px' }}>
                     <BlueBox />
                 </div>
             </div>
