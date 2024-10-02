@@ -5,6 +5,7 @@ import Footer from './sub_components/Footer';
 import AddQuestion from './sub_components/AddQuestion';
 import BlueBox from './sub_components/BlueBox';
 import NavBar from './sub_components/NavBar';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function MainPage() {
@@ -15,6 +16,7 @@ export default function MainPage() {
     const [users, setUsers] = useState({});
     const [filteredQuestions, setFilteredQuestions] = useState([]);
 
+    const nav = useNavigate()
 
     let avatarPic = 'https://i.pinimg.com/236x/53/a3/89/53a3893001f4f0a310c6ce792fe6598a.jpg';
     useEffect(() => {
@@ -23,7 +25,7 @@ export default function MainPage() {
                 const res = await axios.get('http://localhost:3000/api/Questions/getAll');
                 const sortedQuestions = res.data.sort((a, b) => b.id - a.id);
                 setQuestions(sortedQuestions);
-                setFilteredQuestions(sortedQuestions); 
+                setFilteredQuestions(sortedQuestions);
                 const commentCountRes = await axios.get('http://localhost:3000/api/Answers/getAll');
                 const allAnswers = commentCountRes.data;
 
@@ -65,7 +67,13 @@ export default function MainPage() {
                 )
             );
 
-            await axios.put(`http://localhost:3000/api/Questions/update/${question.id}`, { Like: newLikeCount });
+            const response = await axios.put(`http://localhost:3000/api/Questions/update/${question.id}`, { Like: newLikeCount });
+
+            setQuestions((prevQuestions) =>
+                prevQuestions.map((q) =>
+                    q.id === question.id ? { ...q, Like: response.data.Like, isLiked: add } : q
+                )
+            );
         } catch (err) {
             console.log('Error updating like:', err);
 
@@ -76,6 +84,7 @@ export default function MainPage() {
             );
         }
     };
+
 
     const handleComment = (questionId) => {
         setCommentInputs((prev) => ({
@@ -120,12 +129,12 @@ export default function MainPage() {
 
     return (
         <div>
-            <div style={{ 
-                position: 'fixed', 
-                top: '0', 
-                left: '0', 
-                width: '100%', 
-                color: 'white', 
+            <div style={{
+                position: 'fixed',
+                top: '0',
+                left: '0',
+                width: '100%',
+                color: 'white',
                 zIndex: '1000',
                 padding: '10px'
             }}>
@@ -177,7 +186,9 @@ export default function MainPage() {
                                         <p className="text-sm text-gray-500">{question.QuestionDate.slice(0, 16)}</p>
                                     </div>
                                 </div>
-                                <div className="mb-4">
+                                <div
+                                    onClick={() => { nav('/OneQuestion', { state: question }) }}
+                                    className="mb-4">
                                     <p className="text-gray-700">{question.Question}?</p>
                                 </div>
                                 <div className="flex items-center space-x-4">

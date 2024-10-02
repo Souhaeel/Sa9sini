@@ -37,9 +37,9 @@ const Answer = ({ answer, fetchAnswers }) => {
       )}
       
 
-
-
       
+
+
       <button onClick={() => setIsEditing(!isEditing)}>
         {isEditing ? "Cancel" : "Edit"}
       </button>
