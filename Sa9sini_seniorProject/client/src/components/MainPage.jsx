@@ -4,23 +4,26 @@ import axios from 'axios';
 import Footer from './sub_components/Footer';
 import AddQuestion from './sub_components/AddQuestion';
 import BlueBox from './sub_components/BlueBox';
+import NavBar from './sub_components/NavBar';
+
 
 export default function MainPage() {
     const [questions, setQuestions] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [commentInputs, setCommentInputs] = useState({});
     const [comments, setComments] = useState({});
-    const [users, setUsers] = useState({}); 
+    const [users, setUsers] = useState({});
+    const [filteredQuestions, setFilteredQuestions] = useState([]);
+
 
     let avatarPic = 'https://i.pinimg.com/236x/53/a3/89/53a3893001f4f0a310c6ce792fe6598a.jpg';
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const res = await axios.get('http://localhost:3000/api/Questions/getAll');
                 const sortedQuestions = res.data.sort((a, b) => b.id - a.id);
                 setQuestions(sortedQuestions);
-
+                setFilteredQuestions(sortedQuestions); 
                 const commentCountRes = await axios.get('http://localhost:3000/api/Answers/getAll');
                 const allAnswers = commentCountRes.data;
 
@@ -29,16 +32,16 @@ export default function MainPage() {
 
                 const initialComments = {};
                 const initialUsers = {};
-                sortedQuestions.forEach(question => {
+                sortedQuestions.forEach((question) => {
                     const count = allAnswers.filter(answer => answer.questionId === question.id).length;
-                    initialComments[question.id] = count; 
+                    initialComments[question.id] = count;
 
                     const user = allUsers.find(user => user.id === question.userId);
-                    initialUsers[question.id] = user ? user.userName : 'Unknown'; 
+                    initialUsers[question.id] = user ? user.userName : 'Unknown';
                 });
 
-                setComments(initialComments); 
-                setUsers(initialUsers);  
+                setComments(initialComments);
+                setUsers(initialUsers);
             } catch (err) {
                 console.log('Error:', err);
             }
@@ -46,6 +49,7 @@ export default function MainPage() {
 
         fetchData();
     }, []);
+
 
     const handleNewQuestion = (newQuestion) => {
         setQuestions((questions) => [newQuestion, ...questions]);
@@ -76,7 +80,7 @@ export default function MainPage() {
     const handleComment = (questionId) => {
         setCommentInputs((prev) => ({
             ...prev,
-            [questionId]: prev[questionId] === undefined ? '' : undefined 
+            [questionId]: prev[questionId] === undefined ? '' : undefined
         }));
     };
 
@@ -96,7 +100,7 @@ export default function MainPage() {
                 [questionId]: prev[questionId] + 1,
             }));
 
-            setCommentInputs((prev) => ({ ...prev, [questionId]: undefined })); 
+            setCommentInputs((prev) => ({ ...prev, [questionId]: undefined }));
         }
     };
 
@@ -116,14 +120,22 @@ export default function MainPage() {
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '100px' }}>
+            <div style={{ 
+                position: 'fixed', 
+                top: '0', 
+                left: '0', 
+                width: '100%', 
+                color: 'white', 
+                zIndex: '1000',
+                padding: '10px'
+            }}>
+                <NavBar setFilteredQuestions={setFilteredQuestions} questions={questions} />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '100px', paddingTop: '60px' }}>
                 <div style={{ width: '70%', paddingRight: '20px' }}>
-                    <div className="flex items-center justify-center">
-                        <p>..........................................................................</p>
-                        <p>.nav.........................................................................</p>
-                    </div>
                     <AddQuestion handleNewQuestion={handleNewQuestion} />
-                    {questions.map((question, i) => (
+                    {filteredQuestions.map((question, i) => (
                         <div
                             key={i}
                             className="relative max-w-2xl mx-auto my-8"
@@ -161,7 +173,7 @@ export default function MainPage() {
                                         )}
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-lg text-gray-800">{users[question.id]}</h3> {/* Display user name */}
+                                        <h3 className="font-semibold text-lg text-gray-800">{users[question.id]}</h3>
                                         <p className="text-sm text-gray-500">{question.QuestionDate.slice(0, 16)}</p>
                                     </div>
                                 </div>
@@ -178,11 +190,11 @@ export default function MainPage() {
                                     </button>
                                     <div className="flex items-center space-x-1 text-gray-500">
                                         <button
-                                            onClick={() => handleComment(question.id)} 
+                                            onClick={() => handleComment(question.id)}
                                             className="flex items-center space-x-1"
                                         >
                                             <MessageCircle size={20} />
-                                            <span>{comments[question.id] || 0}</span> 
+                                            <span>{comments[question.id] || 0}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -194,7 +206,7 @@ export default function MainPage() {
                                             onChange={(e) => setCommentInputs((prev) => ({
                                                 ...prev,
                                                 [question.id]: e.target.value
-                                            }))} 
+                                            }))}
                                             placeholder="Type your comment..."
                                             className="border rounded px-2 py-1 w-full"
                                         />
