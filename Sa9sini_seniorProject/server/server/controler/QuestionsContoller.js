@@ -22,9 +22,9 @@ module.exports = {
 
     updateQuestion: async (req, res) => {
         try {
-            const {Question,category} = req.body
+            const {Question,category,Like} = req.body
             const id = req.params.id
-            const changeExpense = await db.Questions.update({Question,category} , { where: { id } })
+            const changeExpense = await db.Questions.update({Question,category,Like} , { where: { id } })
             const getone = await db.Questions.findOne({ where: { id } })
             res.status(200).send(getone)
         }
