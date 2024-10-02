@@ -182,7 +182,7 @@ export default function MainPage() {
                                             className="flex items-center space-x-1"
                                         >
                                             <MessageCircle size={20} />
-                                            <span>{comments[question.id] || 0}</span> {/* Render comment count */}
+                                            <span>{comments[question.id] || 0}</span> 
                                         </button>
                                     </div>
                                 </div>
