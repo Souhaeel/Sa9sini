@@ -56,3 +56,133 @@
 .footer-icons a:hover {
     color: #4a5568;
 }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container Styles */
+  .answers-page {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .answers-page h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Add Answer Styles */
+  .add-answer {
+    display:flex ;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .add-answer input {
+    flex: 1;
+    padding: 16px;
+    font-size: 16px;
+    border: 5px solid #ccc;
+    border-radius: 6px;
+    margin-right: 50px;
+    margin-left: 50px;
+    transition: border-color 0.3s;
+  }
+  
+  .add-answer input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .add-answer button {
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .add-answer button:hover {
+    background-color: #11451d;
+  }
+  
+  /* Answer Box Styles */
+  .Answer-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .Answer-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .Answer-box p {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .Answer-box p:last-child {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .Answer-box button {
+    padding: 8px 14px;
+    margin-right: 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .Answer-box button:hover {
+    background-color: #0056b3;
+  }
+  
+  .Answer-box button:last-child {
+    background-color: #dc3545;
+  }
+  
+  .Answer-box button:last-child:hover {
+    background-color: #c82333;
+  }
+  
+  .Answer-box input {
+    width: calc(100% - 30px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s;
+  }
+  
+  .Answer-box input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
