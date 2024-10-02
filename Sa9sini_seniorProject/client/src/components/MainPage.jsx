@@ -3,6 +3,9 @@ import axios from 'axios'
     
 export default function MainPage() {
     const [data, setData] = useState([])
+    const [theme,setTheme] = useState("light")
+    const [filteredData,setFilteredData]=useState([])
+    const [search, setSearch]=useState("")
 
     useEffect(() => {
         const getData = async () => {
@@ -11,14 +14,29 @@ export default function MainPage() {
         }
         getData()
     }, [])
+    useEffect(()=>{
+        const filterData = ()=>{
+            let result = data
+            if(search){
+                result = result.filter((item)=>{
+                    return item.question.toLowerCase().includes(search.toLowerCase())
+                })
+            }
+            setFilteredData(result)
+        }
+        filterData()
+    },search,data)
     console.log(data);
 
     return (
+        <>
+        <NavBar theme={theme} setTheme={setTheme} search={search} setSearch={setSearch}/>
         <div>
-        {data.map((element, i) => (
+        {(search? filteredData : data).map((element, i) => (
             <h1 key={i}>{element.Question}</h1>
         ))}
     </div>
+    </>
     )
 
 }

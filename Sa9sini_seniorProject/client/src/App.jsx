@@ -11,12 +11,9 @@ import "./App.css";
 
 function App() {
 
-  const [theme,setTheme] = useState("light")
-
   return (
     <div className={`container-fluid ${theme}`}>
       <BrowserRouter>
-        <NavBar theme={theme} setTheme={setTheme}/>
         <Routes>
           <Route path='/Sign_in' element={<Sign_in />} />
           <Route path='/Sign_up' element={<Sign_up />} />
