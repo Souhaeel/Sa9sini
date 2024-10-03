@@ -4,9 +4,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    email: {
+    image: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
     password: {
       type: DataTypes.STRING(255),
