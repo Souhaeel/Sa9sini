@@ -10,6 +10,8 @@ const AnswersPage = () => {
     try {
       const response = await axios.get('http://localhost:3000/api/Answers/getAll');
       setAnswers(response.data);
+      
+     
     } catch (error) {
       console.error("Error fetching answers:", error);
     }
