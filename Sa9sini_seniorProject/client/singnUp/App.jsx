@@ -7,7 +7,6 @@ const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -26,7 +25,6 @@ const SignUp = () => {
           userName,
           email,
           password,
-          role,
         }
       );
 
@@ -68,16 +66,7 @@ const SignUp = () => {
           required
         />
       </div>
-      {}
-      <div>
-        <label>Role:</label>
-        <input
-          type="text"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
-      </div>
-      {error && <div style={{ color: "red" }}>{error}</div>} {error}
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <button type="submit">Sign Up</button>
     </form>
   );

@@ -14,7 +14,6 @@ const Login = () => {
     setLoading(true);
     setError("");
 
-    // Basic validation
     if (!email || !password) {
       setError("Please enter both email and password.");
       setLoading(false);
