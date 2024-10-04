@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Questions',
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   }, {
     timestamps: false,  // Disable timestamps if not needed

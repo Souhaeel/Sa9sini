@@ -115,17 +115,25 @@ export default function MainPage() {
 
     const handleDelete = async (element) => {
         const check = window.confirm('Are you sure? This might be irreplaceable.');
+        console.log(check);
+        
         if (check) {
             try {
                 await axios.delete(`http://localhost:3000/api/Questions/delete/${element.id}`);
-                setQuestions((questions) =>
-                    questions.filter((question) => question.id !== element.id)
+    
+                setQuestions((prevQuestions) =>
+                    prevQuestions.filter((question) => question.id !== element.id)
                 );
+                setFilteredQuestions((prevQuestions) =>
+                    prevQuestions.filter((question) => question.id !== element.id)
+                );
+    
             } catch (err) {
-                console.error("Failed to delete product:", err);
+                console.error("Failed to delete question:", err);
             }
         }
     };
+    
 
     return (
         <div>
@@ -189,7 +197,7 @@ export default function MainPage() {
                                 <div
                                     onClick={() => { nav('/OneQuestion', { state: question }) }}
                                     className="mb-4">
-                                    <p className="text-gray-700">{question.Question}?</p>
+                                    <p className="text-gray-700 cursor-pointer">{question.Question}?</p>
                                 </div>
                                 <div className="flex items-center space-x-4">
                                     <button
@@ -234,7 +242,6 @@ export default function MainPage() {
                     ))}
                 </div>
 
-                {/* Fixed BlueBox */}
                 <div style={{ position: 'fixed', top: '80px', right: '200px', width: '200px' }}>
                     <BlueBox />
                 </div>

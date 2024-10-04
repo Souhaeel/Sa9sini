@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
           model: 'Users',
           key: 'id',
         },
+        
       },
     }, {
       timestamps: false,  // Disable timestamps if not needed
@@ -37,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'questionId',
         as: 'Answers',
       });
+      
     };
   
     return Questions;

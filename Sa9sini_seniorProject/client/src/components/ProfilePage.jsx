@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Calendar, ThumbsUp, Home } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import moment from "moment"
 
 export default function ProfilePage() {
     const [data, setData] = useState([]);
     const [users, setUser] = useState([]);
-    const [image, setImage] = useState("");  // For selected image
-    const [imageUrl, setImageUrl] = useState("");  // For uploaded image URL
+    const [image, setImage] = useState("");  
+    const [imageUrl, setImageUrl] = useState("");  
 
     const nav = useNavigate();
 
@@ -66,7 +67,7 @@ export default function ProfilePage() {
                                     {userEmail}
                                 </p>
 
-                                {/* Image Upload Input */}
+                          
                                 <input
                                     type="file"
                                     onChange={(e) => setImage(e.target.files[0])}
@@ -102,7 +103,7 @@ export default function ProfilePage() {
                                             <td className="py-4 px-4 whitespace-nowrap">
                                                 <div className="text-sm text-gray-500 flex items-center">
                                                     <Calendar className="w-4 h-4 mr-2" />
-                                                    {question.QuestionDate}
+                                                    {moment(question.QuestionDate, "YYYYMMDD").fromNow()}
                                                 </div>
                                             </td>
                                             <td className="py-4 px-4 whitespace-nowrap">
