@@ -54,7 +54,16 @@ module.exports = {
             catch(error){
               res.status(500).send(error)
             }
-          }
+          },
+          updateImage: async (req, res) => {
+                const { id } = req.params;
+                const { image } = req.body;
+    
+                await db.Users.update({ image }, { where: { id } });
+    
+                const user = await db.Users.findOne({ where: { id } });
+                res.status(200).send(user);
+            }
 }
 
 
