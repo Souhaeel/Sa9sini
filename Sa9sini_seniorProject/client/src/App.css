@@ -169,21 +169,21 @@ body {
   }
   
   .Answer-box button:last-child:hover {
-    background-color: #b02130;
+    background-color: #c5404e;
   }
   
   .Answer-box input {
     width: calc(100% - 30px);
     padding: 6px;
     font-size: 16px;
-    border: 1px solid #faf6f6;
+    border: 1px solid #490909;
     border-radius: 8px;
     margin-bottom: 10px;
     transition: border-color 0.3s;
   }
   
   .Answer-box input:focus {
-    border-color: #05aafd;
+    border-color: #6d279f;
     outline: none;
   }
 

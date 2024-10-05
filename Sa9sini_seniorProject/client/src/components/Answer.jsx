@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Home ,Pencil ,Trash2} from 'lucide-react';
+
 
 const Answer = ({ answer, fetchAnswers }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -40,13 +42,13 @@ const Answer = ({ answer, fetchAnswers }) => {
       
 
 
-      <button onClick={() => setIsEditing(!isEditing)}>
-        {isEditing ? "Cancel" : "Edit"}
+      <button onClick={() => setIsEditing(!isEditing)}><Pencil   />
+        {isEditing ? " " : " "}
       </button>
       {isEditing ? (
         <button onClick={handleUpdate}>Save</button>
       ) : (
-        <button onClick={handleDelete}>Delete</button>
+        <button onClick={handleDelete}><Trash2 /></button>
       )}
     </div>
   );

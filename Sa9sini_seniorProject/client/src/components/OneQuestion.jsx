@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Answer from "../components/Answer";
-import { Home } from 'lucide-react';
+import { Home ,Pencil } from 'lucide-react';
 import {useLocation,useNavigate } from 'react-router-dom';
 import { Search, User } from 'lucide-react';
 import logo from '../components/css/logo.png';

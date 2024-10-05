@@ -15,6 +15,7 @@ export default function MainPage() {
     const [comments, setComments] = useState({});
     const [users, setUsers] = useState({});
     const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const [refresh,setrefresh] = useState(true)
 
     const nav = useNavigate()
 
@@ -50,11 +51,11 @@ export default function MainPage() {
         };
 
         fetchData();
-    }, []);
+    }, [refresh]);
 
 
     const handleNewQuestion = (newQuestion) => {
-        setQuestions((questions) => [newQuestion, ...questions]);
+        setFilteredQuestions((questions) => [newQuestion, ...questions]);
     };
 
     const handleLike = async (question, add) => {
@@ -74,6 +75,7 @@ export default function MainPage() {
                     q.id === question.id ? { ...q, Like: response.data.Like, isLiked: add } : q
                 )
             );
+            setrefresh(!refresh)
         } catch (err) {
             console.log('Error updating like:', err);
 
@@ -190,7 +192,7 @@ export default function MainPage() {
                                         )}
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-lg text-gray-800">{users[question.id]}</h3>
+                                        <h3 className="font-semibold text-lg text-gray-800">{users[question.id] || 'Isabella Anderson'}</h3>
                                         <p className="text-sm text-gray-500">{question.QuestionDate.slice(0, 16)}</p>
                                     </div>
                                 </div>
