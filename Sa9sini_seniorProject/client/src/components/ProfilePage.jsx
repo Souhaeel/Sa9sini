@@ -7,8 +7,9 @@ import moment from "moment"
 export default function ProfilePage() {
     const [data, setData] = useState([]);
     const [users, setUser] = useState([]);
-    const [image, setImage] = useState("");  
-    const [imageUrl, setImageUrl] = useState("");  
+    const [image, setImage] = useState("");  // For selected image
+    const [imageUrl, setImageUrl] = useState("");  // For uploaded image URL
+    const userIndex = 8;
 
     const nav = useNavigate();
 
@@ -19,6 +20,7 @@ export default function ProfilePage() {
                 setData(res.data);
                 const userRes = await axios.get('http://localhost:3000/api/Users/getAll');
                 setUser(userRes.data);
+                setImageUrl(userRes.data[userIndex]?.image || 'https://i.pinimg.com/236x/09/fe/87/09fe871bbc8a2ca63c31c70382d9d3e6.jpg')
             } catch (err) {
                 console.log('Error:', err);
             }
@@ -30,16 +32,17 @@ export default function ProfilePage() {
     const handleImageUpload = async () => {
         const formData = new FormData();
         formData.append("file", image);
-        formData.append("upload_preset", "sa9sini");  
+        formData.append("upload_preset", "sa9sini");
         try {
             const res = await axios.post("https://api.cloudinary.com/v1_1/dcttg7rql/image/upload", formData);
-            setImageUrl(res.data.secure_url);  
+            const secureUrl = res.data.secure_url;
+            await axios.put(`http://localhost:3000/api/users/updateImage/${userIndex + 1}`, { image: secureUrl });
+            setImageUrl(secureUrl);
         } catch (error) {
             console.error("Error uploading image:", error);
         }
     };
 
-    const userIndex = 8;
     const currentUser = users[userIndex] || {};
     const userName = currentUser.userName || 'noBody';
     const userEmail = currentUser.email || 'noEmail';
@@ -57,7 +60,7 @@ export default function ProfilePage() {
                         <div className="flex flex-col sm:flex-row items-center">
                             <img
                                 className="w-32 h-32 sm:w-48 sm:h-48 rounded-full object-cover mb-4 sm:mb-0 sm:mr-8"
-                                src={imageUrl || 'https://i.pinimg.com/236x/09/fe/87/09fe871bbc8a2ca63c31c70382d9d3e6.jpg'}
+                                src={imageUrl}
                                 alt={`${userName}'s profile`}
                             />
                             <div className="text-center sm:text-left">
