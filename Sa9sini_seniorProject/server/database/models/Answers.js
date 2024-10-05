@@ -7,23 +7,37 @@ module.exports = (sequelize, DataTypes) => {
     AnswersDate: {
       type: DataTypes.DATE,
       allowNull: false,
-    }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
+    },
+    questionId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Questions',
+        key: 'id',
+      },
+    },
   }, {
-    timestamps: false  // Disable timestamps if not needed
+    timestamps: false,  // Disable timestamps if not needed
   });
 
-    Answers.associate = function (models) {
-      Answers.belongsTo(models.Users, {
-        foreignKey: 'userId',  
-        as: 'Users',           // Alias for users association
-      });
-      Answers.belongsTo(models.Questions, {
-        foreignKey: 'questionId',  
-        as: 'Questions',           // Alias for questions association
-      });
-    };
-    
-  
-  
+  Answers.associate = function (models) {
+    Answers.belongsTo(models.Users, {
+      foreignKey: 'userId',
+      as: 'User',
+    });
+    Answers.belongsTo(models.Questions, {
+      foreignKey: 'questionId',
+      as: 'Question',
+    });
+  };
+
   return Answers;
 };
