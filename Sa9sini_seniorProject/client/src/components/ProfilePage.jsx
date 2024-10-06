@@ -28,6 +28,7 @@ export default function ProfilePage() {
                 }));
                 const userRes = await axios.get('http://localhost:3000/api/Users/getAll');
                 setUser(userRes.data);
+                setImageUrl(userRes.data[userIndex]?.image || 'https://i.pinimg.com/236x/09/fe/87/09fe871bbc8a2ca63c31c70382d9d3e6.jpg')
             } catch (err) {
                 console.log('Error:', err);
             }
@@ -76,6 +77,7 @@ export default function ProfilePage() {
                         <div className="flex flex-col sm:flex-row items-center">
                             <img
                                 className="w-32 h-32 sm:w-48 sm:h-48 rounded-full object-cover mb-4 sm:mb-0 sm:mr-8"
+                                src={imageUrl}
                                 src={imageUrl}
                                 alt={`${userName}'s profile`}
                             />
