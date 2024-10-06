@@ -13,14 +13,15 @@ export default function MainPage() {
     const [commentInputs, setCommentInputs] = useState({});
     const [comments, setComments] = useState({});
     const [users, setUsers] = useState({});
-    const[userImage,setuserImage] = useState({});
+    const [userImage, setuserImage] = useState({});
     const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [refresh, setRefresh] = useState(true);
+
 
     const nav = useNavigate();
 
     let avatarPic = 'https://i.pinimg.com/236x/53/a3/89/53a3893001f4f0a310c6ce792fe6598a.jpg';
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -44,7 +45,7 @@ export default function MainPage() {
 
                     const user = allUsers.find(user => user.id === question.userId);
                     initialUsers[question.id] = user ? user.userName : 'Unknown';
-                    
+
                     const userimage = allUsers.find(userimage => userimage.id === question.userId);
                     initialUserImage[question.id] = userimage ? userimage.image : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy4VRK9YD-mETSqxe9gFL2lu8PAh0aSa8W6w&s';
                 });
@@ -65,32 +66,27 @@ export default function MainPage() {
     };
 
     const handleLike = async (question) => {
-        const add = !question.isLiked; // Toggle like status
-        const newLikeCount = add ? question.Like + 1 : question.Like - 1; // Update like count
+        const newLikeStatus = !question.isLiked;
+        const newLikeCount = newLikeStatus ? question.Like + 1 : question.Like - 1;
 
         try {
-            // Optimistically update UI
             setQuestions((prevQuestions) =>
                 prevQuestions.map((q) =>
-                    q.id === question.id ? { ...q, Like: newLikeCount, isLiked: add } : q
+                    q.id === question.id ? { ...q, Like: newLikeCount, isLiked: newLikeStatus } : q
                 )
             );
 
-            // Send updated like count to the backend
             await axios.put(`http://localhost:3000/api/Questions/update/${question.id}`, { Like: newLikeCount });
 
-            // Optionally, refresh state to sync with the backend
+            console.log('New Like Status:', newLikeStatus);
+
             setRefresh(!refresh);
         } catch (err) {
             console.log('Error updating like:', err);
-            // Revert UI state if error occurs
-            setQuestions((prevQuestions) =>
-                prevQuestions.map((q) =>
-                    q.id === question.id ? { ...q, Like: question.Like, isLiked: question.isLiked } : q
-                )
-            );
         }
     };
+
+
 
     const handleComment = (questionId) => {
         setCommentInputs((prev) => ({
@@ -121,7 +117,7 @@ export default function MainPage() {
 
     const handleDelete = async (element) => {
         const check = window.confirm('Are you sure? This might be irreplaceable.');
-        
+
         if (check) {
             try {
                 await axios.delete(`http://localhost:3000/api/Questions/delete/${element.id}`);
@@ -210,6 +206,7 @@ export default function MainPage() {
                                         <ThumbsUp size={20} />
                                         <span>{question.Like || 0}</span>
                                     </button>
+
                                     <div className="flex items-center space-x-1 text-gray-500">
                                         <button
                                             onClick={() => handleComment(question.id)}
