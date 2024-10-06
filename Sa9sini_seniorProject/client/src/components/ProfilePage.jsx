@@ -7,9 +7,15 @@ import moment from "moment"
 export default function ProfilePage() {
     const [data, setData] = useState([]);
     const [users, setUser] = useState([]);
-    const [image, setImage] = useState("");  // For selected image
-    const [imageUrl, setImageUrl] = useState("");  // For uploaded image URL
-    const userIndex = 8;
+    const [image, setImage] = useState("");
+    const userIndex = 10;
+
+    const currentUser = users[userIndex] || {};
+    const userName = currentUser.userName || 'noBody';
+    const userEmail = currentUser.email || 'noEmail';
+    const userImage = currentUser.image || 'https://i.pinimg.com/enabled_hi/236x/4d/84/bb/4d84bb59074bf2df411c9cb7f2f0ff2c.jpg'
+    
+    const [imageUrl, setImageUrl] = useState(userImage);
 
     const nav = useNavigate();
 
@@ -17,10 +23,11 @@ export default function ProfilePage() {
         const fetchData = async () => {
             try {
                 const res = await axios.get('http://localhost:3000/api/Questions/getAll');
-                setData(res.data);
+                setData(res.data.filter((d)=>{
+                    return d.userId === userIndex
+                }));
                 const userRes = await axios.get('http://localhost:3000/api/Users/getAll');
                 setUser(userRes.data);
-                setImageUrl(userRes.data[userIndex]?.image || 'https://i.pinimg.com/236x/09/fe/87/09fe871bbc8a2ca63c31c70382d9d3e6.jpg')
             } catch (err) {
                 console.log('Error:', err);
             }
@@ -30,22 +37,31 @@ export default function ProfilePage() {
     }, []);
 
     const handleImageUpload = async () => {
+        if (!image) {
+            console.error("No image selected for upload.");
+            return;
+        }
+    
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "sa9sini");
+    
         try {
             const res = await axios.post("https://api.cloudinary.com/v1_1/dcttg7rql/image/upload", formData);
             const secureUrl = res.data.secure_url;
-            await axios.put(`http://localhost:3000/api/users/updateImage/${userIndex + 1}`, { image: secureUrl });
+            console.log('Uploaded image URL:', secureUrl);
+            
+            await axios.put(`http://localhost:3000/api/users/update/${userIndex + 1}`, { image: secureUrl });
             setImageUrl(secureUrl);
         } catch (error) {
-            console.error("Error uploading image:", error);
-        }
+           
+                console.error("Error in request setup:", error.message);
+            }
+        
     };
+    
 
-    const currentUser = users[userIndex] || {};
-    const userName = currentUser.userName || 'noBody';
-    const userEmail = currentUser.email || 'noEmail';
+   
 
     return (
         <div>

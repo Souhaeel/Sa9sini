@@ -7,19 +7,20 @@ import BlueBox from './sub_components/BlueBox';
 import NavBar from './sub_components/NavBar';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function MainPage() {
     const [questions, setQuestions] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [commentInputs, setCommentInputs] = useState({});
     const [comments, setComments] = useState({});
     const [users, setUsers] = useState({});
+    const[userImage,setuserImage] = useState({});
     const [filteredQuestions, setFilteredQuestions] = useState([]);
-    const [refresh,setrefresh] = useState(true)
+    const [refresh, setRefresh] = useState(true);
 
-    const nav = useNavigate()
+    const nav = useNavigate();
 
     let avatarPic = 'https://i.pinimg.com/236x/53/a3/89/53a3893001f4f0a310c6ce792fe6598a.jpg';
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,6 +28,7 @@ export default function MainPage() {
                 const sortedQuestions = res.data.sort((a, b) => b.id - a.id);
                 setQuestions(sortedQuestions);
                 setFilteredQuestions(sortedQuestions);
+
                 const commentCountRes = await axios.get('http://localhost:3000/api/Answers/getAll');
                 const allAnswers = commentCountRes.data;
 
@@ -35,16 +37,21 @@ export default function MainPage() {
 
                 const initialComments = {};
                 const initialUsers = {};
+                const initialUserImage = {}
                 sortedQuestions.forEach((question) => {
                     const count = allAnswers.filter(answer => answer.questionId === question.id).length;
                     initialComments[question.id] = count;
 
                     const user = allUsers.find(user => user.id === question.userId);
                     initialUsers[question.id] = user ? user.userName : 'Unknown';
+                    
+                    const userimage = allUsers.find(userimage => userimage.id === question.userId);
+                    initialUserImage[question.id] = userimage ? userimage.image : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy4VRK9YD-mETSqxe9gFL2lu8PAh0aSa8W6w&s';
                 });
 
                 setComments(initialComments);
                 setUsers(initialUsers);
+                setuserImage(initialUserImage)
             } catch (err) {
                 console.log('Error:', err);
             }
@@ -53,32 +60,30 @@ export default function MainPage() {
         fetchData();
     }, [refresh]);
 
-
     const handleNewQuestion = (newQuestion) => {
         setFilteredQuestions((questions) => [newQuestion, ...questions]);
     };
 
-    const handleLike = async (question, add) => {
-        const newLikeCount = add ? question.Like + 1 : question.Like - 1;
+    const handleLike = async (question) => {
+        const add = !question.isLiked; // Toggle like status
+        const newLikeCount = add ? question.Like + 1 : question.Like - 1; // Update like count
 
         try {
+            // Optimistically update UI
             setQuestions((prevQuestions) =>
                 prevQuestions.map((q) =>
                     q.id === question.id ? { ...q, Like: newLikeCount, isLiked: add } : q
                 )
             );
 
-            const response = await axios.put(`http://localhost:3000/api/Questions/update/${question.id}`, { Like: newLikeCount });
+            // Send updated like count to the backend
+            await axios.put(`http://localhost:3000/api/Questions/update/${question.id}`, { Like: newLikeCount });
 
-            setQuestions((prevQuestions) =>
-                prevQuestions.map((q) =>
-                    q.id === question.id ? { ...q, Like: response.data.Like, isLiked: add } : q
-                )
-            );
-            setrefresh(!refresh)
+            // Optionally, refresh state to sync with the backend
+            setRefresh(!refresh);
         } catch (err) {
             console.log('Error updating like:', err);
-
+            // Revert UI state if error occurs
             setQuestions((prevQuestions) =>
                 prevQuestions.map((q) =>
                     q.id === question.id ? { ...q, Like: question.Like, isLiked: question.isLiked } : q
@@ -86,7 +91,6 @@ export default function MainPage() {
             );
         }
     };
-
 
     const handleComment = (questionId) => {
         setCommentInputs((prev) => ({
@@ -117,25 +121,22 @@ export default function MainPage() {
 
     const handleDelete = async (element) => {
         const check = window.confirm('Are you sure? This might be irreplaceable.');
-        console.log(check);
         
         if (check) {
             try {
                 await axios.delete(`http://localhost:3000/api/Questions/delete/${element.id}`);
-    
+
                 setQuestions((prevQuestions) =>
                     prevQuestions.filter((question) => question.id !== element.id)
                 );
                 setFilteredQuestions((prevQuestions) =>
                     prevQuestions.filter((question) => question.id !== element.id)
                 );
-    
             } catch (err) {
                 console.error("Failed to delete question:", err);
             }
         }
     };
-    
 
     return (
         <div>
@@ -184,7 +185,7 @@ export default function MainPage() {
                                 <div className="flex items-center mb-4">
                                     <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
                                         {avatarPic ? (
-                                            <img src={avatarPic} alt={users[question.id]} className="w-full h-full object-cover" />
+                                            <img src={userImage[question.id]} alt={users[question.id]} className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                                                 <User className="text-gray-400" size={24} />
@@ -203,7 +204,7 @@ export default function MainPage() {
                                 </div>
                                 <div className="flex items-center space-x-4">
                                     <button
-                                        onClick={() => handleLike(question, !question.isLiked)}
+                                        onClick={() => handleLike(question)}
                                         className={`flex items-center space-x-1 ${question.isLiked ? 'text-blue-500' : 'text-gray-500'} hover:text-blue-600 transition-colors duration-200`}
                                     >
                                         <ThumbsUp size={20} />
@@ -248,6 +249,7 @@ export default function MainPage() {
                     <BlueBox />
                 </div>
             </div>
+
             <Footer />
         </div>
     );
