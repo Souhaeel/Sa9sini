@@ -58,11 +58,11 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-    padding: 0;
-  }
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+}
   
   /* Container Styles */
   .answers-page {
@@ -101,14 +101,14 @@ body {
   }
   
   .add-answer input:focus {
-    border-color: #007bff;
+    border-color: #aebdcf;
     outline: none;
   }
   
   .add-answer button {
     padding: 12px 20px;
     background-color: #28a745;
-    color: #fff;
+    color: #fffbfb;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -120,11 +120,11 @@ body {
     background-color: #11451d;
   }
   
-  /* Answer Box Styles */
+ 
   .Answer-box {
-    background-color: #f9f9f9;
+    background-color: #fdfcfc;
     padding: 20px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #aba7a7;
     border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -139,17 +139,17 @@ body {
   .Answer-box p {
     margin: 0 0 10px;
     font-size: 16px;
-    color: #333;
+    color: #323232;
   }
-  
   .Answer-box p:last-child {
     margin-bottom: 0;
     font-size: 14px;
-    color: #666;
+    color: z#666;
   }
   
+ 
   .Answer-box button {
-    padding: 8px 14px;
+    padding: 3px 7px;
     margin-right: 8px;
     background-color: #007bff;
     color: #fff;
@@ -165,24 +165,37 @@ body {
   }
   
   .Answer-box button:last-child {
-    background-color: #dc3545;
+    background-color: #dc2e3f;
   }
   
   .Answer-box button:last-child:hover {
-    background-color: #c82333;
+    background-color: #c5404e;
   }
   
   .Answer-box input {
     width: calc(100% - 30px);
-    padding: 10px;
+    padding: 6px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: 1px solid #490909;
+    border-radius: 8px;
     margin-bottom: 10px;
     transition: border-color 0.3s;
   }
   
   .Answer-box input:focus {
-    border-color: #007bff;
+    border-color: #6d279f;
     outline: none;
+  }
+
+
+
+
+  
+  
+  
+  .question-box {
+    border: 3px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
   }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Answer from "../components/Answer";
-import { Home } from 'lucide-react';
+import { Home ,Pencil } from 'lucide-react';
 import {useLocation,useNavigate } from 'react-router-dom';
 import { Search, User } from 'lucide-react';
 import logo from '../components/css/logo.png';
-
+import '../App.css'
 
 const AnswersPage = () => {
   const [answers, setAnswers] = useState([]);
@@ -39,15 +39,19 @@ console.log(quest);
   }, []);
 
   const handleAdd = async () => {
+    if (!newAnswer.trim()){
+      alert("ADD ANSWER")
+    }
     try {
-      await axios.post('http://localhost:3000/api/Answers/add', { Answer: newAnswer, AnswersDate: new Date(), userId: 1, questionId: quest.id });
+      await axios.post('http://localhost:3000/api/Answers/add', { Answer: newAnswer, AnswersDate: new Date(),userName: "user name", userId: 1, questionId: quest.id });
       setNewAnswer("");
       fetchAnswers();
     } catch (error) {
       console.error("Error adding answer:", error);
     }
   };
-
+  
+  
   return (
     <div>
       <div>
@@ -86,19 +90,26 @@ console.log(quest);
       <div 
       style={{ marginTop: '80px' }}
       className="answers-page">
+
+        <div className='question-box' style={{border:'1px solidd #ddd', padding: '20px', borderRadius:'8px',marginBottom:'20px'}}>
+
         <h1>{quest.Question}</h1>
         <div className="add-answer">
           <input
             type="text"
             value={newAnswer}
             onChange={(e) => setNewAnswer(e.target.value)}
+        
           />
           <button onClick={handleAdd}>Add Answer</button>
         </div>
+        </div >
+        <div className='answers-container' style ={{maxHeight: '400px', overflowY: 'auto', marginTop: '20px', padding: '10 px',border:'1px solid #ccc', borderRadius:'5px' }}>
         {answers.map((answer) => (
           <Answer key={answer.id} answer={answer} fetchAnswers={fetchAnswers} />
         ))}
       </div>
+    </div>
     </div>
   );
 };

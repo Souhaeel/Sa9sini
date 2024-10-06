@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       category: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.ENUM,
+        values: ['General', 'Technology', 'Science', 'Health', 'Entertainment'],
         allowNull: false,
       },
       QuestionDate: {
@@ -16,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      isLiked: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -23,9 +29,10 @@ module.exports = (sequelize, DataTypes) => {
           model: 'Users',
           key: 'id',
         },
+        
       },
     }, {
-      timestamps: false,  // Disable timestamps if not needed
+      timestamps: false,
     });
   
     Questions.associate = function (models) {
@@ -37,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'questionId',
         as: 'Answers',
       });
+      
     };
   
     return Questions;
