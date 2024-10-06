@@ -36,7 +36,7 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-
+// sequelize.sync({ force: true })
 sequelize.authenticate()
   .then(() => console.log('your database is connected'))
   .catch((error) => console.log(error))

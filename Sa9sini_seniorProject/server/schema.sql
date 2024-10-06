@@ -1,49 +1,51 @@
 
 /*dummydata to use*/
 
-INSERT INTO Users (userName, email, password) VALUES 
-('John Doe', 'john.doe@example.com', 'password1'),
-('Jane Smith', 'jane.smith@example.com', 'password2'),
-('Michael Brown', 'michael.brown@example.com', 'password3'),
-('Emily Davis', 'emily.davis@example.com', 'password4'),
-('William Johnson', 'william.johnson@example.com', 'password5'),
-('Olivia Wilson', 'olivia.wilson@example.com', 'password6'),
-('James Taylor', 'james.taylor@example.com', 'password7'),
-('Sophia Martinez', 'sophia.martinez@example.com', 'password8'),
-('Benjamin Lee', 'benjamin.lee@example.com', 'password9'),
-('Isabella Anderson', 'isabella.anderson@example.com', 'password10'),
-('Liam White', 'liam.white@example.com', 'password11'),
-('Ava Thompson', 'ava.thompson@example.com', 'password12'),
-('Henry Harris', 'henry.harris@example.com', 'password13'),
-('Mia Clark', 'mia.clark@example.com', 'password14'),
-('Lucas Lewis', 'lucas.lewis@example.com', 'password15'),
-('Charlotte Robinson', 'charlotte.robinson@example.com', 'password16'),
-('Elijah Walker', 'elijah.walker@example.com', 'password17'),
-('Amelia Scott', 'amelia.scott@example.com', 'password18'),
-('Noah Young', 'noah.young@example.com', 'password19'),
-('Harper King', 'harper.king@example.com', 'password20');
+INSERT INTO Users (userName, image, email, password) VALUES 
+('John Doe', 'https://randomuser.me/api/portraits/men/1.jpg', 'john.doe@example.com', 'password1'),
+('Jane Smith', 'https://randomuser.me/api/portraits/women/1.jpg', 'jane.smith@example.com', 'password2'),
+('Michael Brown', 'https://randomuser.me/api/portraits/men/2.jpg', 'michael.brown@example.com', 'password3'),
+('Emily Davis', 'https://randomuser.me/api/portraits/women/2.jpg', 'emily.davis@example.com', 'password4'),
+('William Johnson', 'https://randomuser.me/api/portraits/men/3.jpg', 'william.johnson@example.com', 'password5'),
+('Olivia Wilson', 'https://randomuser.me/api/portraits/women/3.jpg', 'olivia.wilson@example.com', 'password6'),
+('James Taylor', 'https://randomuser.me/api/portraits/men/4.jpg', 'james.taylor@example.com', 'password7'),
+('Sophia Martinez', 'https://randomuser.me/api/portraits/women/4.jpg', 'sophia.martinez@example.com', 'password8'),
+('Benjamin Lee', 'https://randomuser.me/api/portraits/men/5.jpg', 'benjamin.lee@example.com', 'password9'),
+('Isabella Anderson', 'https://randomuser.me/api/portraits/women/5.jpg', 'isabella.anderson@example.com', 'password10'),
+('Liam White', 'https://randomuser.me/api/portraits/men/6.jpg', 'liam.white@example.com', 'password11'),
+('Ava Thompson', 'https://randomuser.me/api/portraits/women/6.jpg', 'ava.thompson@example.com', 'password12'),
+('Henry Harris', 'https://randomuser.me/api/portraits/men/7.jpg', 'henry.harris@example.com', 'password13'),
+('Mia Clark', 'https://randomuser.me/api/portraits/women/7.jpg', 'mia.clark@example.com', 'password14'),
+('Lucas Lewis', 'https://randomuser.me/api/portraits/men/8.jpg', 'lucas.lewis@example.com', 'password15'),
+('Charlotte Robinson', 'https://randomuser.me/api/portraits/women/8.jpg', 'charlotte.robinson@example.com', 'password16'),
+('Elijah Walker', 'https://randomuser.me/api/portraits/men/9.jpg', 'elijah.walker@example.com', 'password17'),
+('Amelia Scott', 'https://randomuser.me/api/portraits/women/9.jpg', 'amelia.scott@example.com', 'password18'),
+('Noah Young', 'https://randomuser.me/api/portraits/men/10.jpg', 'noah.young@example.com', 'password19'),
+('Harper King', 'https://randomuser.me/api/portraits/women/10.jpg', 'harper.king@example.com', 'password20');
 
-INSERT INTO Questions (Question, category, QuestionDate, `Like`, userId) VALUES 
-('What is the capital of France?', 'Geography', NOW(), 0, 1),
-('What is the largest ocean on Earth?', 'Geography', NOW(), 0, 2),
-('Who wrote "Pride and Prejudice"?', 'Literature', NOW(), 0, 3),
-('What is the square root of 64?', 'Mathematics', NOW(), 0, 4),
-('Who discovered penicillin?', 'Science', NOW(), 0, 5),
-('What is the tallest mountain in the world?', 'Geography', NOW(), 0, 6),
-('When was the first manned moon landing?', 'History', NOW(), 0, 7),
-('What is the fastest land animal?', 'Biology', NOW(), 0, 8),
-('Which element has the chemical symbol O?', 'Chemistry', NOW(), 0, 9),
-('What is the smallest country in the world?', 'Geography', NOW(), 0, 10),
-('Who painted the Mona Lisa?', 'Art', NOW(), 0, 11),
-('What is the speed of light?', 'Physics', NOW(), 0, 12),
-('What is the longest river in the world?', 'Geography', NOW(), 0, 13),
-('Who invented the telephone?', 'History', NOW(), 0, 14),
-('What is the hardest natural substance?', 'Science', NOW(), 0, 15),
-('What is the most abundant gas in Earth’s atmosphere?', 'Science', NOW(), 0, 16),
-('What planet is known as the Red Planet?', 'Astronomy', NOW(), 0, 17),
-('How many continents are there?', 'Geography', NOW(), 0, 18),
-('Who was the first president of the United States?', 'History', NOW(), 0, 19),
-('Which planet is closest to the sun?', 'Astronomy', NOW(), 0, 20);
+
+INSERT INTO Questions (Question, category, QuestionDate, `Like`, isLiked, userId) VALUES 
+('What is the capital of France?', 'General', NOW(), 0, FALSE, 1),
+('What is the largest ocean on Earth?', 'General', NOW(), 0, FALSE, 2),
+('Who wrote "Pride and Prejudice"?', 'Entertainment', NOW(), 0, FALSE, 3),
+('What is the square root of 64?', 'General', NOW(), 0, FALSE, 4),
+('Who discovered penicillin?', 'Science', NOW(), 0, FALSE, 5),
+('What is the tallest mountain in the world?', 'General', NOW(), 0, FALSE, 6),
+('When was the first manned moon landing?', 'General', NOW(), 0, FALSE, 7),
+('What is the fastest land animal?', 'General', NOW(), 0, FALSE, 8),
+('Which element has the chemical symbol O?', 'Science', NOW(), 0, FALSE, 9),
+('What is the smallest country in the world?', 'General', NOW(), 0, FALSE, 10),
+('Who painted the Mona Lisa?', 'Entertainment', NOW(), 0, FALSE, 11),
+('What is the speed of light?', 'Science', NOW(), 0, FALSE, 12),
+('What is the longest river in the world?', 'General', NOW(), 0, FALSE, 13),
+('Who invented the telephone?', 'Technology', NOW(), 0, FALSE, 14),
+('What is the hardest natural substance?', 'Science', NOW(), 0, FALSE, 15),
+('What is the most abundant gas in Earth’s atmosphere?', 'Science', NOW(), 0, FALSE, 16),
+('What planet is known as the Red Planet?', 'General', NOW(), 0, FALSE, 17),
+('How many continents are there?', 'General', NOW(), 0, FALSE, 18),
+('Which planet is closest to the sun?', 'General', NOW(), 0, FALSE, 19),
+('What is the difference between health and wellness?', 'Health', NOW(), 0, FALSE, 20);
+
 
 
 INSERT INTO Answers (Answer, AnswersDate, userId, questionId) VALUES 

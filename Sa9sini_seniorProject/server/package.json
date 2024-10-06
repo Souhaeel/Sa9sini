@@ -4,7 +4,9 @@
   "description": "MVP-Repo-Starter",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "sequelize": "sequelize-cli",
+    "db:migrate": "sequelize-cli db:migrate"
   },
   "author": "cohortpt",
   "license": "ISC",
